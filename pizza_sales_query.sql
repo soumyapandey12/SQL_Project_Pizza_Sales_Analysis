@@ -81,7 +81,8 @@ FROM
     FROM
         orders
     JOIN order_details ON orders.order_id = order_details.order_id
-    GROUP BY order_date) AS sum_quantity;
+    GROUP BY order_date
+    ) AS sum_quantity;
 
 -- Determine the top 3 most ordered pizza types based on revenue.
 SELECT 
@@ -116,11 +117,12 @@ SELECT order_date, SUM(revenue) OVER (ORDER BY order_date) AS revenue
 FROM (SELECT order_date, SUM(quantity * price) AS revenue
       FROM 
       orders
-		JOIN
-	  order_details ON orders.order_id = order_details.order_id
-        JOIN
-    pizzas ON order_details.pizza_id = pizzas.pizza_id
-GROUP BY order_date) AS sales;
+          JOIN
+      order_details ON orders.order_id = order_details.order_id
+          JOIN
+      pizzas ON order_details.pizza_id = pizzas.pizza_id
+      GROUP BY order_date
+      ) AS sales;
 
 -- Determine the top 3 most ordered pizza types based on revenue for each pizza category.
 SELECT category, name, revenue
