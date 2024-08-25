@@ -100,8 +100,9 @@ LIMIT 3;
 SELECT category, SUM(quantity * price) * 100 / (SELECT SUM(quantity * price)
                                                 FROM 
                                                 pizzas
-													JOIN    
-												order_details ON pizzas.pizza_id = order_details.pizza_id) AS percentage_contribution
+					            JOIN    
+						order_details ON pizzas.pizza_id = order_details.pizza_id
+	                                        ) AS percentage_contribution
 FROM
     pizza_types
         JOIN
@@ -127,10 +128,10 @@ FROM (SELECT category, name, revenue, RANK() OVER(PARTITION BY category ORDER BY
       FROM (SELECT category, name, SUM(quantity * price) AS revenue
             FROM
             pizza_types
-				JOIN
-			pizzas ON pizza_types.pizza_type_id = pizzas.pizza_type_id
-				JOIN    
-			order_details ON pizzas.pizza_id = order_details.pizza_id
+		JOIN
+	    pizzas ON pizza_types.pizza_type_id = pizzas.pizza_type_id
+		JOIN    
+	    order_details ON pizzas.pizza_id = order_details.pizza_id
             GROUP BY category , name
             ) AS T1
      ) AS T2
